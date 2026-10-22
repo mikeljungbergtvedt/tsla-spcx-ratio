@@ -4,17 +4,17 @@ const APP = "https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/";
 const L = 2.5;
 const D = await new Request(URL_DATA).loadJSON();
 const R = D.rows, last = R[R.length-1], prev = R[R.length-2];
-let t = last.t, s = last.s, pr = prev;
+let t = last.t, s = last.s, pr = prev, tag = "";
 if (D.live && D.live.t && D.live.s) {
   const ld = new Date(D.live.time*1000).toISOString().slice(0,10);
-  if (ld > last.d) { t = D.live.t; s = D.live.s; pr = last; }
+  if (ld > last.d) { t = D.live.t; s = D.live.s; pr = last; tag = D.live.tag || ""; }
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 const w = new ListWidget();
 w.backgroundColor = new Color("#0b0f14");
 w.url = APP;
-const h = w.addText("TSLA / SPCX"); h.font = Font.mediumSystemFont(12); h.textColor = new Color("#8a96a3");
+const h = w.addText("TSLA / SPCX" + (tag ? " · " + tag : "")); h.font = Font.mediumSystemFont(12); h.textColor = new Color("#8a96a3");
 w.addSpacer(4);
 const big = w.addText(f(r,3)); big.font = Font.boldSystemFont(34);
 big.textColor = r >= L ? new Color("#ffd24d") : Color.white();

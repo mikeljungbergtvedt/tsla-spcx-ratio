@@ -27,7 +27,7 @@ function load(){fetch('data.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json
  const R=D.rows,last=R[R.length-1],prev=R[R.length-2];
  let t=last.t,s=last.s,lt=last.d,pr=prev;
  if(D.live&&D.live.t&&D.live.s){const ld=new Date(D.live.time*1000).toLocaleDateString('sv-SE',{timeZone:'America/New_York'});
-  if(ld>last.d){t=D.live.t;s=D.live.s;lt=ld+' (intradag)';pr=last}}
+  if(ld>last.d){t=D.live.t;s=D.live.s;lt=ld+' ('+(D.live.tag||'intradag')+')';pr=last}}
  const r=t/s,c=r-pr.r;
  big.textContent=f(r,3);chg.textContent=(c>=0?'+':'')+f(c,3)+' i dag';chg.className=c>=0?'up':'dn';
  px.textContent=`TSLA ${f(t)} $ · SPCX ${f(s)} $ · ${lt}`;

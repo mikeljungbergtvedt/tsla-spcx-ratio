@@ -9,9 +9,24 @@ def get(s):
         out[d]=round(c,2)
     m=r["meta"]
     return out,m
+def ext(sym):
+    try:
+        req=urllib.request.Request(f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1d&interval=1m&includePrePost=true",headers={"User-Agent":"Mozilla/5.0"})
+        r=json.load(urllib.request.urlopen(req,timeout=30))["chart"]["result"][0]
+        pts=[(t,c) for t,c in zip(r.get("timestamp") or [],r["indicators"]["quote"][0]["close"]) if c is not None]
+        return pts[-1] if pts else (0,None)
+    except Exception: return (0,None)
 t,tm=get("TSLA"); s,sm=get("SPCX")
 rows=[{"d":d,"t":t[d],"s":s[d],"r":round(t[d]/s[d],4)} for d in sorted(s) if d in t]
+lt,ls=tm.get("regularMarketPrice"),sm.get("regularMarketPrice")
+ltime=max(tm.get("regularMarketTime",0),sm.get("regularMarketTime",0)); tag=""
+et,ep=ext("TSLA"); es,eq=ext("SPCX")
+if ep and eq and min(et,es)>ltime+60:
+    lt,ls,ltime=round(ep,2),round(eq,2),max(et,es)
+    h=datetime.datetime.fromtimestamp(ltime,datetime.timezone.utc).hour
+    tag="førbørs" if h<14 else "etterbørs"
+LIVE={"t":lt,"s":ls,"time":ltime,"tag":tag}
 json.dump({"updated":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
- "live":{"t":tm.get("regularMarketPrice"),"s":sm.get("regularMarketPrice"),"time":max(tm.get("regularMarketTime",0),sm.get("regularMarketTime",0))},
+ "live":LIVE,
  "rows":rows},open("data.json","w"),separators=(",",":"))
 print(rows[0],rows[-1],len(rows))
