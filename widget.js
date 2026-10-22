@@ -11,20 +11,6 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
-// Varsel når forholdet har flyttet seg >= 0,05 siden forrige varsel
-try {
-  const K = "tsla_spcx_last_alert", STEP = 0.05;
-  const last = Keychain.contains(K) ? parseFloat(Keychain.get(K)) : null;
-  if (last === null) { Keychain.set(K, String(r)); }
-  else if (Math.abs(r - last) >= STEP) {
-    const n = new Notification();
-    n.title = `Bytteforhold ${f(r,3)} (${r>last?"+":""}${f(r-last,3)})`;
-    n.body = `${f(t,2)} / ${f(s,2)}` + (tag ? ` · ${tag}` : "");
-    n.openURL = APP;
-    await n.schedule();
-    Keychain.set(K, String(r));
-  }
-} catch (e) {}
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
   const p = a.addText(`${f(t,2)} / ${f(s,2)}`); p.font = Font.semiboldSystemFont(16); p.minimumScaleFactor = 0.7;
