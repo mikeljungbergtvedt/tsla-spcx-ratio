@@ -31,7 +31,7 @@ function load(){fetch('data.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json
  const r=t/s,c=r-pr.r;
  big.textContent=f(r,3);chg.textContent=(c>=0?'+':'')+f(c,3)+' i dag';chg.className=c>=0?'up':'dn';
  px.textContent=`TSLA ${f(t)} $ · SPCX ${f(s)} $ · ${lt}`;
- upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid) · bytt-nivå '+f(L,1);
+ upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
  ipo.textContent=`Første handelsdag SPCX: ${R[0].d} · forhold ${f(R[0].r,3)}`;
  const W=360,H=240,p=28,rs=R.map(x=>x.r),mn=Math.min(...rs)*.98,mx=Math.max(...rs)*1.02;
  const X=i=>p+i*(W-p-6)/(R.length-1),Y=v=>6+(mx-v)*(H-30)/(mx-mn);
