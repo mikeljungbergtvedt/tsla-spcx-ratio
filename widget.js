@@ -13,13 +13,13 @@ const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 // Varsel ved hver ny hundredel (2,40 / 2,41 / 2,42 ...)
 try {
-  const K = "tsla_spcx_bucket";
-  const now = Math.floor(r * 100);
+  const K = "tsla_spcx_bucket10";
+  const now = Math.floor(r * 10);
   const prevB = Keychain.contains(K) ? parseInt(Keychain.get(K)) : null;
   if (prevB === null) { Keychain.set(K, String(now)); }
   else if (now !== prevB) {
     const n = new Notification();
-    n.title = `Bytteforhold ${f(now/100,2)} ${now > prevB ? "↑" : "↓"}`;
+    n.title = `Bytteforhold ${f(now/10,1)} ${now > prevB ? "↑" : "↓"}`;
     n.body = `${f(t,2)} / ${f(s,2)}`;
     n.openURL = APP;
     await n.schedule();
