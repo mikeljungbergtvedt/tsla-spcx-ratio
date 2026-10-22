@@ -23,7 +23,7 @@ td:first-child,th:first-child{text-align:left}.hi{color:#ffd24d;font-weight:600}
 <table><thead><tr><th>Dato</th><th>TSLA</th><th>SPCX</th><th>Forhold</th></tr></thead><tbody id="tb"></tbody></table>
 <script>
 const L=2.5,f=(x,n=2)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
-fetch('data.json?'+Date.now()).then(r=>r.json()).then(D=>{
+function load(){fetch('data.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(D=>{
  const R=D.rows,last=R[R.length-1],prev=R[R.length-2];
  let t=last.t,s=last.s,lt=last.d,pr=prev;
  if(D.live&&D.live.t&&D.live.s){const ld=new Date(D.live.time*1000).toLocaleDateString('sv-SE',{timeZone:'America/New_York'});
@@ -41,5 +41,6 @@ fetch('data.json?'+Date.now()).then(r=>r.json()).then(D=>{
  g+=`<polyline fill="none" stroke="#4da3ff" stroke-width="2" points="${R.map((x,i)=>X(i)+','+Y(x.r)).join(' ')}"/>`;
  const sv=document.getElementById('c');sv.setAttribute('viewBox',`0 0 ${W} ${H}`);sv.innerHTML=g;
  tb.innerHTML=R.slice().reverse().map(x=>`<tr><td>${x.d}</td><td>${f(x.t)}</td><td>${f(x.s)}</td><td class="${x.r>=L?'hi':''}">${f(x.r,3)}</td></tr>`).join('');
-});
+});}
+load();setInterval(load,5*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
 </script></body></html>
