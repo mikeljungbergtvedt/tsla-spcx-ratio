@@ -11,6 +11,21 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
+// Varsel ved hver ny hundredel (2,40 / 2,41 / 2,42 ...)
+try {
+  const K = "tsla_spcx_bucket";
+  const now = Math.floor(r * 100);
+  const prevB = Keychain.contains(K) ? parseInt(Keychain.get(K)) : null;
+  if (prevB === null) { Keychain.set(K, String(now)); }
+  else if (now !== prevB) {
+    const n = new Notification();
+    n.title = `Bytteforhold ${f(now/100,2)} ${now > prevB ? "↑" : "↓"}`;
+    n.body = `${f(t,2)} / ${f(s,2)}`;
+    n.openURL = APP;
+    await n.schedule();
+    Keychain.set(K, String(now));
+  }
+} catch (e) {}
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
   const p = a.addText(`${f(t,2)} / ${f(s,2)}`); p.font = Font.semiboldSystemFont(16); p.minimumScaleFactor = 0.7;
