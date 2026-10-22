@@ -1,0 +1,20 @@
+name: update-data
+on:
+  schedule:
+    - cron: "*/30 13-21 * * 1-5"
+    - cron: "30 22 * * 1-5"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: gh-pages}
+      - uses: actions/checkout@v4
+        with: {ref: main, path: src}
+      - run: python3 src/scripts/fetch.py
+      - run: |
+          git config user.name "data-bot"; git config user.email "actions@users.noreply.github.com"
+          git add data.json; git diff --cached --quiet || (git commit -m "data $(date -u +%F_%H%M)" && git push)

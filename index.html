@@ -1,0 +1,45 @@
+<!doctype html><html lang="no"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSLA/SPCX"><meta name="theme-color" content="#0b0f14">
+<link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.json">
+<title>TSLA/SPCX</title>
+<style>
+body{margin:0;background:#0b0f14;color:#e6e6e6;font:15px -apple-system,system-ui,sans-serif;padding:env(safe-area-inset-top) 14px 30px}
+h1{font-size:14px;color:#8a96a3;font-weight:500;margin:14px 0 2px}
+#big{font-size:64px;font-weight:700;letter-spacing:-1px}#chg{font-size:18px;margin-left:8px}
+.up{color:#3ddc84}.dn{color:#ff5c5c}.sub{color:#8a96a3;font-size:14px}
+svg{width:100%;height:240px;display:block;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:7px 4px;text-align:right;border-bottom:1px solid #1c242d}th{color:#8a96a3;font-weight:500;position:sticky;top:0;background:#0b0f14}
+td:first-child,th:first-child{text-align:left}.hi{color:#ffd24d;font-weight:600}
+</style></head><body>
+<h1>Bytteforhold – antall SPCX per TSLA</h1>
+<div><span id="big">–</span><span id="chg"></span></div>
+<div class="sub" id="px"></div><div class="sub" id="upd"></div>
+<svg id="c"></svg>
+<div class="sub" id="ipo"></div>
+<table><thead><tr><th>Dato</th><th>TSLA</th><th>SPCX</th><th>Forhold</th></tr></thead><tbody id="tb"></tbody></table>
+<script>
+const L=2.5,f=(x,n=2)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
+fetch('data.json?'+Date.now()).then(r=>r.json()).then(D=>{
+ const R=D.rows,last=R[R.length-1],prev=R[R.length-2];
+ let t=last.t,s=last.s,lt=last.d,pr=prev;
+ if(D.live&&D.live.t&&D.live.s){const ld=new Date(D.live.time*1000).toLocaleDateString('sv-SE',{timeZone:'America/New_York'});
+  if(ld>last.d){t=D.live.t;s=D.live.s;lt=ld+' (intradag)';pr=last}}
+ const r=t/s,c=r-pr.r;
+ big.textContent=f(r,3);chg.textContent=(c>=0?'+':'')+f(c,3)+' i dag';chg.className=c>=0?'up':'dn';
+ px.textContent=`TSLA ${f(t)} $ · SPCX ${f(s)} $ · ${lt}`;
+ upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid) · bytt-nivå '+f(L,1);
+ ipo.textContent=`Første handelsdag SPCX: ${R[0].d} · forhold ${f(R[0].r,3)}`;
+ const W=360,H=240,p=28,rs=R.map(x=>x.r).concat(L),mn=Math.min(...rs)*.98,mx=Math.max(...rs)*1.02;
+ const X=i=>p+i*(W-p-6)/(R.length-1),Y=v=>6+(mx-v)*(H-30)/(mx-mn);
+ let g='';for(let k=0;k<5;k++){const v=mn+(mx-mn)*k/4;g+=`<line x1="${p}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="#1c242d"/><text x="0" y="${Y(v)+4}" fill="#8a96a3" font-size="10">${f(v)}</text>`}
+ [0,Math.floor(R.length/2),R.length-1].forEach(i=>g+=`<text x="${Math.min(X(i),W-60)}" y="${H-4}" fill="#8a96a3" font-size="10">${R[i].d.slice(5)}</text>`);
+ g+=`<line x1="${p}" x2="${W}" y1="${Y(L)}" y2="${Y(L)}" stroke="#ffd24d" stroke-dasharray="5 4"/><text x="${W-30}" y="${Y(L)-4}" fill="#ffd24d" font-size="10">2,5</text>`;
+ g+=`<polyline fill="none" stroke="#4da3ff" stroke-width="2" points="${R.map((x,i)=>X(i)+','+Y(x.r)).join(' ')}"/>`;
+ c.setAttribute('viewBox',`0 0 ${W} ${H}`);c.innerHTML=g;
+ tb.innerHTML=R.slice().reverse().map(x=>`<tr><td>${x.d}</td><td>${f(x.t)}</td><td>${f(x.s)}</td><td class="${x.r>=L?'hi':''}">${f(x.r,3)}</td></tr>`).join('');
+});
+</script></body></html>
