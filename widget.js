@@ -13,9 +13,8 @@ const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
-  const p = a.addText(`${f(t,2)} / ${f(s,2)}`); p.font = Font.systemFont(12); p.minimumScaleFactor = 0.7;
-  const b = a.addText(f(r,3)); b.font = Font.boldSystemFont(22);
-  const k = a.addText((c>=0?"+":"") + f(c,3) + (tag ? " · " + tag : "")); k.font = Font.systemFont(11); k.minimumScaleFactor = 0.7;
+  const p = a.addText(`${f(t,2)} / ${f(s,2)}`); p.font = Font.semiboldSystemFont(16); p.minimumScaleFactor = 0.7;
+  const b = a.addText(f(r,3)); b.minimumScaleFactor = 0.6; b.font = Font.boldSystemFont(30);
   a.refreshAfterDate = new Date(Date.now() + 15*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
