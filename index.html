@@ -39,7 +39,7 @@ fetch('data.json?'+Date.now()).then(r=>r.json()).then(D=>{
  [0,Math.floor(R.length/2),R.length-1].forEach(i=>g+=`<text x="${Math.min(X(i),W-60)}" y="${H-4}" fill="#8a96a3" font-size="10">${R[i].d.slice(5)}</text>`);
  g+=`<line x1="${p}" x2="${W}" y1="${Y(L)}" y2="${Y(L)}" stroke="#ffd24d" stroke-dasharray="5 4"/><text x="${W-30}" y="${Y(L)-4}" fill="#ffd24d" font-size="10">2,5</text>`;
  g+=`<polyline fill="none" stroke="#4da3ff" stroke-width="2" points="${R.map((x,i)=>X(i)+','+Y(x.r)).join(' ')}"/>`;
- c.setAttribute('viewBox',`0 0 ${W} ${H}`);c.innerHTML=g;
+ const sv=document.getElementById('c');sv.setAttribute('viewBox',`0 0 ${W} ${H}`);sv.innerHTML=g;
  tb.innerHTML=R.slice().reverse().map(x=>`<tr><td>${x.d}</td><td>${f(x.t)}</td><td>${f(x.s)}</td><td class="${x.r>=L?'hi':''}">${f(x.r,3)}</td></tr>`).join('');
 });
 </script></body></html>
