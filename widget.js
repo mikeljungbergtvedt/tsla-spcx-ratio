@@ -11,7 +11,7 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
-// Varsel ved hver ny hundredel (2,40 / 2,41 / 2,42 ...)
+// Varsel ved hver ny tidel (2,4 / 2,5 / 2,6 ...)
 try {
   const K = "tsla_spcx_bucket10";
   const now = Math.floor(r * 10);
@@ -28,22 +28,34 @@ try {
 } catch (e) {}
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
-  const p = a.addText(`${f(t,2)} / ${f(s,2)}`); p.font = Font.semiboldSystemFont(16); p.minimumScaleFactor = 0.7;
-  const b = a.addText(f(r,3)); b.minimumScaleFactor = 0.6; b.font = Font.boldSystemFont(30);
+  const p = a.addText(`${f(t,2)} / ${f(s,2)}`);
+  p.font = Font.boldSystemFont(22);
+  p.minimumScaleFactor = 0.55;
+  a.addSpacer(2);
+  const b = a.addText(f(r,3));
+  b.font = Font.boldSystemFont(28);
+  b.minimumScaleFactor = 0.55;
   a.refreshAfterDate = new Date(Date.now() + 15*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
 const w = new ListWidget();
 w.backgroundColor = new Color("#0b0f14");
 w.url = APP;
-const h = w.addText("TSLA / SPCX" + (tag ? " · " + tag : "")); h.font = Font.mediumSystemFont(12); h.textColor = new Color("#8a96a3");
-w.addSpacer(4);
-const big = w.addText(f(r,3)); big.font = Font.boldSystemFont(34);
-big.textColor = Color.white();
-const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag"); ch.font = Font.systemFont(13);
-ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
+const h = w.addText("TSLA / SPCX" + (tag ? " · " + tag : ""));
+h.font = Font.mediumSystemFont(11);
+h.textColor = new Color("#8a96a3");
 w.addSpacer(6);
-const px = w.addText(`TSLA ${f(t,2)} · SPCX ${f(s,2)}`); px.font = Font.systemFont(10); px.textColor = new Color("#8a96a3");
+const px = w.addText(`${f(t,2)} / ${f(s,2)}`);
+px.font = Font.boldSystemFont(22);
+px.textColor = Color.white();
+px.minimumScaleFactor = 0.7;
+w.addSpacer(4);
+const big = w.addText(f(r,3));
+big.font = Font.boldSystemFont(36);
+big.textColor = Color.white();
+const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag");
+ch.font = Font.systemFont(13);
+ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 15*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();
