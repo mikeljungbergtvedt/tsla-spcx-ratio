@@ -11,6 +11,11 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
+// Byttet 22.10: 3250 TSLA -> SPCX ved 2,56. Resultat i TSLA-ekv = 3250*(2,56/r - 1), kr = ekv*TSLA*USDNOK
+const SWfx = D.swap && D.swap.fx;
+const SWkr = SWfx ? 3250*(2.56/r - 1)*t*SWfx : null;
+const SWtxt = SWkr === null ? "" : (SWkr>=0?"+":"−") + Math.round(Math.abs(SWkr)/1000) + "k";
+const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3ddc84");
 // Varsel ved hver ny tidel (2,4 / 2,5 / 2,6 ...)
 try {
   const K = "tsla_spcx_bucket10";
@@ -32,9 +37,11 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   p.font = Font.boldSystemFont(22);
   p.minimumScaleFactor = 0.55;
   a.addSpacer(2);
-  const b = a.addText(f(r,3));
+  const row = a.addStack(); row.centerAlignContent();
+  const b = row.addText(f(r,3));
   b.font = Font.boldSystemFont(28);
   b.minimumScaleFactor = 0.55;
+  if (SWtxt) { row.addSpacer(8); const k = row.addText(SWtxt); k.font = Font.boldSystemFont(22); k.textColor = SWcol; k.minimumScaleFactor = 0.55; }
   a.refreshAfterDate = new Date(Date.now() + 15*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
@@ -53,7 +60,7 @@ w.addSpacer(4);
 const big = w.addText(f(r,3));
 big.font = Font.boldSystemFont(36);
 big.textColor = Color.white();
-const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag");
+const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag" + (SWtxt ? " · byttet " + SWtxt : ""));
 ch.font = Font.systemFont(13);
 ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 15*60*1000);

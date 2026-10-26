@@ -26,7 +26,13 @@ if ep and eq and min(et,es)>ltime+60:
     h=datetime.datetime.fromtimestamp(ltime,datetime.timezone.utc).hour
     tag="førbørs" if h<14 else "etterbørs"
 LIVE={"t":lt,"s":ls,"time":ltime,"tag":tag}
+try:
+    _f,_fm=get("NOK=X"); FX=round(_fm["regularMarketPrice"],4)
+except Exception: FX=None
+SW={"n":3250,"r0":2.56,"fx":FX}
+if FX:
+    _eq=3250*(2.56/(lt/ls)-1); SW["eq"]=round(_eq,1); SW["kr"]=round(_eq*lt*FX)
 json.dump({"updated":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
- "live":LIVE,
+ "live":LIVE,"swap":SW,
  "rows":rows},open("data.json","w"),separators=(",",":"))
 print(rows[0],rows[-1],len(rows))
