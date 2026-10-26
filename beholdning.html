@@ -14,9 +14,9 @@ h1{font-size:14px;color:#8a96a3;font-weight:500;margin:16px 0 2px}
 <div class="card" id="as"></div>
 <div class="card" id="ze"></div>
 <div class="sub" id="upd"></div>
-<div class="sub" style="margin-top:10px">Beholdning per 26.10 fra skjermbildene dine. Zero er uten kreditt/kontanter (ikke bekreftet). Send skjermbilde når noe endres.</div>
+<div class="sub" style="margin-top:10px">Beholdning per 26.10 fra skjermbildene dine. Zero: kontantbeholdning ikke lagt inn ennå. Send skjermbilde når noe endres.</div>
 <script>
-const H={as:{TSLA:5,SPCX:5000,ZAP:200000,usd:818952.98,nok:-12526285.37},ze:{TSLA:0,SPCX:6500}};
+const H={as:{TSLA:5,SPCX:5000,ZAP:200000,usd:818952.98,nok:-12526285.37},ze:{TSLA:0,SPCX:6500,ZAP:70000,AUTO:50000}};
 const f=(x,n=0)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
 const kr=x=>f(x)+' kr',sg=x=>`<span class="${x>=0?'up':'dn'}">${x>=0?'+':''}${f(x)} kr</span>`;
 async function load(){
@@ -25,11 +25,11 @@ async function load(){
  const td=new Date().toISOString().slice(0,10);
  const ar=A.rows,pa=ar.at(-1).d>=td?ar.at(-2):ar.at(-1);
  const br=B.rows,pz=br.at(-1).d>=td?br.at(-2):br.at(-1);
- const P={TSLA:[t*fx,pa.t*fx],SPCX:[s*fx,pa.s*fx],ZAP:[z,pz.z]};
- px.innerHTML=`TSLA ${f(t,2)} · SPCX ${f(s,2)} · ZAP ${f(z,2)} · USDNOK ${f(fx,4)}`;
+ const P={TSLA:[t*fx,pa.t*fx],SPCX:[s*fx,pa.s*fx],ZAP:[z,pz.z],AUTO:[B.a||0,B.ap||B.a||0]};
+ px.innerHTML=`TSLA ${f(t,2)} · SPCX ${f(s,2)} · ZAP ${f(z,2)} · AUTO ${f(B.a||0,2)} · USDNOK ${f(fx,4)}`;
  let T=0,TD=0;
  for(const k of ['as','ze']){const h=H[k];let v=0,d=0,rows='';
-  for(const n of ['TSLA','SPCX','ZAP']){if(!h[n])continue;const val=h[n]*P[n][0],dd=h[n]*(P[n][0]-P[n][1]);v+=val;d+=dd;
+  for(const n of ['TSLA','SPCX','ZAP','AUTO']){if(!h[n])continue;const val=h[n]*P[n][0],dd=h[n]*(P[n][0]-P[n][1]);v+=val;d+=dd;
    rows+=`<div class="row"><span>${f(h[n])} ${n}</span><span>${kr(val)} · ${sg(dd)}</span></div>`}
   const cash=(h.usd||0)*fx+(h.nok||0);
   if(cash)rows+=`<div class="row"><span>Saldo (kreditt)</span><span>${kr(cash)}</span></div>`;
