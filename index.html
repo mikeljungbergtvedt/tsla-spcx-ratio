@@ -38,7 +38,7 @@ function load(){fetch('data.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json
  prices.innerHTML=`${f(t)}<span class="sep">/</span>${f(s)}`;
  when.textContent=lt;
  big.textContent=f(r,3);chg.textContent=(c>=0?'+':'')+f(c,3)+' i dag';chg.className=c>=0?'up':'dn';
- if(D.swap&&D.swap.fx){const e=3250*(2.56/r-1),k=e*t*D.swap.fx;chg.innerHTML+=` <span class="${k>=0?'up':'dn'}">· byttet ${k>=0?'+':''}${f(k/1000,0)}k kr (${e>=0?'+':''}${f(e,0)} TSLA)</span>`}
+ if(D.swap&&D.swap.fx){const X=D.swap.fx,A=(5000*(s-150.4408)+2000*(385.455-t))*X,Z=(3000*(s-150.2098)+1250*(385.516-t))*X,k=A+Z,q=v=>`<span class="${v>=0?'up':'dn'}">${v>=0?'+':''}${f(v/1000,0)}k</span>`;chg.innerHTML+=` · byttet ${q(k)} kr <span class="sub">(Mike AS ${q(A)} · Zero ${q(Z)})</span>`}
  upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
  ipo.textContent=`Første handelsdag SPCX: ${R[0].d} · forhold ${f(R[0].r,3)}`;
  const W=360,H=240,p=28,rs=R.map(x=>x.r),mn=Math.min(...rs)*.98,mx=Math.max(...rs)*1.02;

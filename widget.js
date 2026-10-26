@@ -11,9 +11,9 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
-// Byttet 22.10: 3250 TSLA -> SPCX ved 2,56. Resultat i TSLA-ekv = 3250*(2,56/r - 1), kr = ekv*TSLA*USDNOK
+// Byttet 22.10 – ren trade i kr: Mike AS 5000 SPCX@150,4408 / -2000 TSLA@385,455; Zero 3000@150,2098 / -1250@385,516
 const SWfx = D.swap && D.swap.fx;
-const SWkr = SWfx ? 3250*(2.56/r - 1)*t*SWfx : null;
+const SWkr = SWfx ? ((5000*(s-150.4408)+2000*(385.455-t)) + (3000*(s-150.2098)+1250*(385.516-t)))*SWfx : null;
 const SWtxt = SWkr === null ? "" : (SWkr>=0?"+":"−") + Math.round(Math.abs(SWkr)/1000) + "k";
 const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3ddc84");
 // Varsel ved hver ny tidel (2,4 / 2,5 / 2,6 ...)

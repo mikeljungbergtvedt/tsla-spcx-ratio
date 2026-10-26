@@ -29,9 +29,10 @@ LIVE={"t":lt,"s":ls,"time":ltime,"tag":tag}
 try:
     _f,_fm=get("NOK=X"); FX=round(_fm["regularMarketPrice"],4)
 except Exception: FX=None
-SW={"n":3250,"r0":2.56,"fx":FX}
+SW={"fx":FX}
 if FX:
-    _eq=3250*(2.56/(lt/ls)-1); SW["eq"]=round(_eq,1); SW["kr"]=round(_eq*lt*FX)
+    _as=(5000*(ls-150.4408)+2000*(385.455-lt))*FX; _z=(3000*(ls-150.2098)+1250*(385.516-lt))*FX
+    SW.update({"as":round(_as),"zero":round(_z),"kr":round(_as+_z)})
 json.dump({"updated":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
  "live":LIVE,"swap":SW,
  "rows":rows},open("data.json","w"),separators=(",",":"))
