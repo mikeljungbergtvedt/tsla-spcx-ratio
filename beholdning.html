@@ -17,6 +17,7 @@ h1{font-size:14px;color:#8a96a3;font-weight:500;margin:16px 0 2px}
 <div class="sub" style="margin-top:10px">Beholdning per 26.10 fra skjermbildene dine. Zero: kreditt 1,95 mill. Send skjermbilde når noe endres.</div>
 <script>
 const H={as:{TSLA:5,SPCX:5000,ZAP:200000,usd:818952.98,nok:-12526285.37},ze:{TSLA:0,SPCX:6500,ZAP:30000,AUTO:50000,nok:-1950000}};
+const G={as:{TSLA:372.95,SPCX:150.51,ZAP:58.33},ze:{SPCX:148.98,ZAP:57.44,AUTO:14.99}},U={TSLA:1,SPCX:1};
 const f=(x,n=0)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
 const kr=x=>f(x)+' kr',sg=x=>`<span class="${x>=0?'up':'dn'}">${x>=0?'+':''}${f(x)} kr</span>`;
 async function load(){
@@ -30,7 +31,8 @@ async function load(){
  let T=0,TD=0;
  for(const k of ['as','ze']){const h=H[k];let v=0,d=0,rows='';
   for(const n of ['TSLA','SPCX','ZAP','AUTO']){if(!h[n])continue;const val=h[n]*P[n][0],dd=h[n]*(P[n][0]-P[n][1]);v+=val;d+=dd;
-   rows+=`<div class="row"><span>${f(h[n])} ${n}</span><span>${kr(val)} · ${sg(dd)}</span></div>`}
+   const g=G[k][n],gk=g?h[n]*(P[n][0]-g*(U[n]?fx:1)):0;
+   rows+=`<div class="row"><span>${f(h[n])} ${n} · GAV ${f(g,2)}</span><span>vs GAV ${sg(gk)}</span></div><div class="row"><span></span><span>${kr(val)} · ${sg(dd)}</span></div>`}
   const cash=(h.usd||0)*fx+(h.nok||0);
   if(cash)rows+=`<div class="row"><span>Saldo (kreditt)</span><span>${kr(cash)}</span></div>`;
   if(k=='ze'){const ek=h.ZAP*P.ZAP[0]+h.AUTO*P.AUTO[0]+h.nok;rows+=`<div class="row"><span>EK i ZAP+AUTO minus kreditt</span><span>${sg(ek)}</span></div>`}
