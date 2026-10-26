@@ -57,10 +57,13 @@ px.font = Font.boldSystemFont(22);
 px.textColor = Color.white();
 px.minimumScaleFactor = 0.7;
 w.addSpacer(4);
-const big = w.addText(f(r,3));
-big.font = Font.boldSystemFont(36);
+const brow = w.addStack(); brow.centerAlignContent();
+const big = brow.addText(f(r,3));
+big.font = Font.boldSystemFont(32);
 big.textColor = Color.white();
-const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag" + (SWtxt ? " · byttet " + SWtxt : ""));
+big.minimumScaleFactor = 0.6;
+if (SWtxt) { brow.addSpacer(6); const k = brow.addText(SWtxt); k.font = Font.boldSystemFont(20); k.textColor = SWcol; k.minimumScaleFactor = 0.6; }
+const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag");
 ch.font = Font.systemFont(13);
 ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 15*60*1000);
