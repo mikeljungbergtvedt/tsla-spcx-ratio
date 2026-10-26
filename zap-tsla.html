@@ -22,7 +22,7 @@ td:first-child,th:first-child{text-align:left}
 <div class="sub" id="fx"></div>
 <h1 style="margin-top:18px">Resultat traden</h1>
 <div id="big">–</div>
-<div class="legs"><div><span class="sub">ZAP-del · 80 000 à 56,80</span><b id="zl"></b></div><div><span class="sub">TSLA-del · 4 000 solgt à 379,50</span><b id="tl"></b></div></div>
+<div class="legs"><div><span class="sub">ZAP-del · 80 000 à 56,80</span><b id="zl"></b></div><div><span class="sub">TSLA-del · 1 500 solgt à 379,50</span><b id="tl"></b></div></div>
 <div class="sub" id="goal"></div>
 <div class="sub" id="upd"></div>
 <svg id="c"></svg>
@@ -36,7 +36,7 @@ function load(){fetch('zap-tsla.json?'+Date.now(),{cache:'no-store'}).then(r=>r.
  fx.textContent='USDNOK '+f(D.fx,4);
  big.textContent=kr(P.total);big.className=cl(P.total);
  zl.textContent=kr(P.zap);zl.className=cl(P.zap);tl.textContent=kr(P.tsla);tl.className=cl(P.tsla);
- const gz=80000*(65-56.8),gt=4000*(379.5-380)*D.fx;
+ const gz=80000*(65-56.8),gt=1500*(379.5-380)*D.fx;
  goal.textContent=`Mål: ZAP 65 (${f(65-D.z)} igjen) · TSLA tilbake ≤ 380 (nå ${f(D.t)}) · ved mål ≈ ${kr(gz+gt)}`;
  upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
  const pts=R.map(x=>x.p).concat([P.total]);
