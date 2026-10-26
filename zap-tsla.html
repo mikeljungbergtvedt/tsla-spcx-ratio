@@ -1,0 +1,49 @@
+<!doctype html><html lang="no"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TSLA/ZAP"><meta name="theme-color" content="#0b0f14">
+<link rel="apple-touch-icon" href="icon-180.png"><link rel="manifest" href="manifest.json">
+<title>TSLA/ZAP</title>
+<style>
+body{margin:0;background:#0b0f14;color:#e6e6e6;font:15px -apple-system,system-ui,sans-serif;padding:env(safe-area-inset-top) 14px 30px}
+h1{font-size:14px;color:#8a96a3;font-weight:500;margin:14px 0 2px}
+#prices{font-size:42px;font-weight:700;letter-spacing:-0.5px;line-height:1.1;margin:8px 0 4px;color:#fff;font-variant-numeric:tabular-nums}
+#prices .sep{color:#8a96a3;font-weight:500;margin:0 6px}
+#big{font-size:64px;font-weight:700;letter-spacing:-1px}#chg{font-size:18px;margin-left:8px}
+.up{color:#3ddc84}.dn{color:#ff5c5c}.sub{color:#8a96a3;font-size:14px}
+svg{width:100%;height:240px;display:block;margin:12px 0}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:7px 4px;text-align:right;border-bottom:1px solid #1c242d}th{color:#8a96a3;font-weight:500;position:sticky;top:0;background:#0b0f14}
+td:first-child,th:first-child{text-align:left}.hi{color:#ffd24d;font-weight:600}
+@media (max-width:400px){#prices{font-size:32px}#big{font-size:52px}}
+</style></head><body>
+<h1>TSLA (USD) / ZAP (NOK)</h1>
+<div id="prices">–</div>
+<div class="sub" id="when"></div>
+<h1 style="margin-top:18px">Bytteforhold</h1>
+<div><span id="big">–</span><span id="chg"></span></div>
+<div class="sub" id="upd"></div>
+<svg id="c"></svg>
+<div class="sub" id="ipo"></div>
+<table><thead><tr><th>Dato</th><th>TSLA</th><th>ZAP</th><th>Forhold</th></tr></thead><tbody id="tb"></tbody></table>
+<script>
+const f=(x,n=2)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
+function load(){fetch('zap-tsla.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(D=>{
+ const R=D.rows||[],E=D.entry,g=D.gainTsla;
+ prices.innerHTML=`${f(D.t)}<span class="sep">/</span>${f(D.z)}`;
+ when.textContent='USDNOK '+f(D.fx,4);
+ big.textContent=f(D.r,2);chg.textContent=(g>=0?'+':'')+f(g,1)+' TSLA';chg.className=g>=0?'up':'dn';
+ upd.textContent=`ZAP per TSLA · inngang ${f(E.r,2)} (TSLA ${f(E.t)} · ZAP ${f(E.z)} · USDNOK ${f(E.fx,4)}) · fallende forhold = gevinst · Oppdatert `+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
+ if(R.length>1){const W=360,H=240,p=28,rs=R.map(x=>x.r).concat([E.r,D.r]),mn=Math.min(...rs)*.98,mx=Math.max(...rs)*1.02;
+ const X=i=>p+i*(W-p-6)/(R.length-1),Y=v=>6+(mx-v)*(H-30)/(mx-mn);
+ let s='';for(let k=0;k<5;k++){const v=mn+(mx-mn)*k/4;s+=`<line x1="${p}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="#1c242d"/><text x="0" y="${Y(v)+4}" fill="#8a96a3" font-size="10">${f(v,1)}</text>`}
+ [0,Math.floor(R.length/2),R.length-1].forEach(i=>s+=`<text x="${Math.min(X(i),W-60)}" y="${H-4}" fill="#8a96a3" font-size="10">${R[i].d.slice(5)}</text>`);
+ s+=`<line x1="${p}" x2="${W}" y1="${Y(E.r)}" y2="${Y(E.r)}" stroke="#ffd24d" stroke-dasharray="4 3"/>`;
+ s+=`<polyline fill="none" stroke="#4da3ff" stroke-width="2" points="${R.map((x,i)=>X(i)+','+Y(x.r)).join(' ')}"/>`;
+ c.setAttribute('viewBox',`0 0 ${W} ${H}`);c.innerHTML=s;}
+ ipo.textContent='Gul stiplet linje = inngang';
+ tb.innerHTML=R.slice().reverse().map(x=>`<tr><td>${x.d}</td><td>${f(x.t)}</td><td>${f(x.z)}</td><td>${f(x.r,2)}</td></tr>`).join('');
+});}
+load();setInterval(load,5*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+</script></body></html>
