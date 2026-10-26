@@ -14,9 +14,9 @@ h1{font-size:14px;color:#8a96a3;font-weight:500;margin:16px 0 2px}
 <div class="card" id="as"></div>
 <div class="card" id="ze"></div>
 <div class="sub" id="upd"></div>
-<div class="sub" style="margin-top:10px">Beholdning per 26.10 fra skjermbildene dine. Zero: kontantbeholdning ikke lagt inn ennå. Send skjermbilde når noe endres.</div>
+<div class="sub" style="margin-top:10px">Beholdning per 26.10 fra skjermbildene dine. Zero: kreditt 1,95 mill. Send skjermbilde når noe endres.</div>
 <script>
-const H={as:{TSLA:5,SPCX:5000,ZAP:200000,usd:818952.98,nok:-12526285.37},ze:{TSLA:0,SPCX:6500,ZAP:70000,AUTO:50000}};
+const H={as:{TSLA:5,SPCX:5000,ZAP:200000,usd:818952.98,nok:-12526285.37},ze:{TSLA:0,SPCX:6500,ZAP:70000,AUTO:50000,nok:-1950000}};
 const f=(x,n=0)=>x.toLocaleString('nb-NO',{minimumFractionDigits:n,maximumFractionDigits:n});
 const kr=x=>f(x)+' kr',sg=x=>`<span class="${x>=0?'up':'dn'}">${x>=0?'+':''}${f(x)} kr</span>`;
 async function load(){
@@ -33,6 +33,7 @@ async function load(){
    rows+=`<div class="row"><span>${f(h[n])} ${n}</span><span>${kr(val)} · ${sg(dd)}</span></div>`}
   const cash=(h.usd||0)*fx+(h.nok||0);
   if(cash)rows+=`<div class="row"><span>Saldo (kreditt)</span><span>${kr(cash)}</span></div>`;
+  if(k=='ze'){const ek=h.ZAP*P.ZAP[0]+h.AUTO*P.AUTO[0]+h.nok;rows+=`<div class="row"><span>EK i ZAP+AUTO minus kreditt</span><span>${sg(ek)}</span></div>`}
   const net=v+cash;T+=net;TD+=d;
   document.getElementById(k).innerHTML=`<span class="sub">${k=='as'?'Mike AS · 700937':'Nordnet Zero · 62179932'}</span><b>${kr(net)}</b><div class="sub">i dag ${sg(d)}</div>${rows}`}
  tot.textContent=kr(T);totd.innerHTML='i dag '+sg(TD);
