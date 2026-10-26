@@ -31,14 +31,13 @@ async function load(){
  let T=0,TD=0;
  for(const k of ['as','ze']){const h=H[k];let v=0,d=0,rows='';
   for(const n of ['TSLA','SPCX','ZAP','AUTO']){if(!h[n])continue;const val=h[n]*P[n][0],dd=h[n]*(P[n][0]-P[n][1]);v+=val;d+=dd;
-   const g=G[k][n],gk=g?h[n]*(P[n][0]-g*(U[n]?fx:1)):0;
-   rows+=`<div class="row"><span>${f(h[n])} ${n} · GAV ${f(g,2)}</span><span>vs GAV ${sg(gk)}</span></div><div class="row"><span></span><span>${kr(val)} · ${sg(dd)}</span></div>`}
+   rows+=`<div class="row"><span>${f(h[n])} ${n}</span><span>${kr(val)}</span></div>`}
   const cash=(h.usd||0)*fx+(h.nok||0);
   if(cash)rows+=`<div class="row"><span>Saldo (kreditt)</span><span>${kr(cash)}</span></div>`;
   if(k=='ze'){const ek=h.ZAP*P.ZAP[0]+h.AUTO*P.AUTO[0]+h.nok;rows+=`<div class="row"><span>EK i ZAP+AUTO minus kreditt</span><span>${sg(ek)}</span></div>`}
   const net=v+cash;T+=net;TD+=d;
-  document.getElementById(k).innerHTML=`<span class="sub">${k=='as'?'Mike AS · 700937':'Nordnet Zero · 62179932'}</span><b>${kr(net)}</b><div class="sub">i dag ${sg(d)}</div>${rows}`}
- tot.textContent=kr(T);totd.innerHTML='i dag '+sg(TD);
+  document.getElementById(k).innerHTML=`<span class="sub">${k=='as'?'Mike AS · 700937':'Nordnet Zero · 62179932'}</span><b>${kr(net)}</b>${rows}`}
+ tot.textContent=kr(T);
  upd.textContent='Oppdatert '+new Date(A.updated>B.updated?A.updated:B.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
 }
 load();setInterval(load,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
