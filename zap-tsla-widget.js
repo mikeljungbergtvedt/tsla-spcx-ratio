@@ -30,7 +30,7 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const b = a.addText(k(P));
   b.font = Font.boldSystemFont(28);
   b.minimumScaleFactor = 0.55;
-  a.refreshAfterDate = new Date(Date.now() + 15*60*1000);
+  a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
 const w = new ListWidget();
@@ -51,6 +51,6 @@ big.textColor = col;
 const ch = w.addText(`ZAP ${k(D.pnl.zap)} · TSLA ${k(D.pnl.tsla)}`);
 ch.font = Font.systemFont(13);
 ch.textColor = new Color("#8a96a3");
-w.refreshAfterDate = new Date(Date.now() + 15*60*1000);
+w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();

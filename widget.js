@@ -42,7 +42,7 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   b.font = Font.boldSystemFont(28);
   b.minimumScaleFactor = 0.55;
   if (SWtxt) { row.addSpacer(8); const k = row.addText(SWtxt); k.font = Font.boldSystemFont(22); k.textColor = SWcol; k.minimumScaleFactor = 0.55; }
-  a.refreshAfterDate = new Date(Date.now() + 15*60*1000);
+  a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
 const w = new ListWidget();
@@ -66,6 +66,6 @@ if (SWtxt) { brow.addSpacer(6); const k = brow.addText(SWtxt); k.font = Font.bol
 const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag");
 ch.font = Font.systemFont(13);
 ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
-w.refreshAfterDate = new Date(Date.now() + 15*60*1000);
+w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();
