@@ -24,7 +24,7 @@ td:first-child,th:first-child{text-align:left}.hi{color:#ffd24d;font-weight:600}
 <div class="sub" id="when"></div>
 <h1 style="margin-top:18px">Resultat byttet</h1>
 <div id="kr">–</div>
-<div class="legs"><div><span class="sub">Mike AS · 2 000 TSLA → 5 000 SPCX</span><b id="la"></b></div><div><span class="sub">Zero · 1 250 TSLA → 3 000 SPCX</span><b id="lz"></b></div></div>
+<div class="legs"><div><span class="sub">Mike AS · 2 000 TSLA → 5 000 SPCX</span><b id="la"></b></div><div><span class="sub">Zero · 2 500 TSLA → 6 500 SPCX</span><b id="lz"></b></div></div>
 <h1 style="margin-top:18px">Bytteforhold</h1>
 <div><span id="big">–</span><span id="chg"></span></div>
 <div class="sub" id="upd"></div>
@@ -42,7 +42,7 @@ function load(){fetch('data.json?'+Date.now(),{cache:'no-store'}).then(r=>r.json
  prices.innerHTML=`${f(t)}<span class="sep">/</span>${f(s)}`;
  when.textContent=lt;
  big.textContent=f(r,3);chg.textContent=(c>=0?'+':'')+f(c,3)+' i dag';chg.className=c>=0?'up':'dn';
- if(D.swap&&D.swap.fx){const X=D.swap.fx,A=(5000*(s-150.4408)+2000*(385.455-t))*X,Z=(3000*(s-150.2098)+1250*(385.516-t))*X,K=v=>(v>=0?'+':'')+f(v,0)+' kr',C=v=>v>=0?'up':'dn';kr.textContent=K(A+Z);kr.className=C(A+Z);la.textContent=K(A);la.className=C(A);lz.textContent=K(Z);lz.className=C(Z)}
+ if(D.swap&&D.swap.fx){const X=D.swap.fx,A=(5000*(s-150.4408)+2000*(385.455-t))*X,Z=(6500*(s-148.98)+2500*(389.80-t))*X,K=v=>(v>=0?'+':'')+f(v,0)+' kr',C=v=>v>=0?'up':'dn';kr.textContent=K(A+Z);kr.className=C(A+Z);la.textContent=K(A);la.className=C(A);lz.textContent=K(Z);lz.className=C(Z)}
  upd.textContent='Oppdatert '+new Date(D.updated).toLocaleString('nb-NO',{timeZone:'Europe/Oslo'})+' (norsk tid)';
  ipo.textContent=`Første handelsdag SPCX: ${R[0].d} · forhold ${f(R[0].r,3)}`;
  const W=360,H=240,p=28,rs=R.map(x=>x.r),mn=Math.min(...rs)*.98,mx=Math.max(...rs)*1.02;

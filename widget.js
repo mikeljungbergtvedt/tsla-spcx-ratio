@@ -11,26 +11,12 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
-// Byttet 22.10 – ren trade i kr: Mike AS 5000 SPCX@150,4408 / -2000 TSLA@385,455; Zero 3000@150,2098 / -1250@385,516
+// Byttet 22.10 – ren trade i kr: Mike AS 5000 SPCX@150,4408 / -2000 TSLA@385,455; Zero 6500@148,98 / -2500@389,80
 const SWfx = D.swap && D.swap.fx;
-const SWkr = SWfx ? ((5000*(s-150.4408)+2000*(385.455-t)) + (3000*(s-150.2098)+1250*(385.516-t)))*SWfx : null;
+const SWkr = SWfx ? ((5000*(s-150.4408)+2000*(385.455-t)) + (6500*(s-148.98)+2500*(389.80-t)))*SWfx : null;
 const SWtxt = SWkr === null ? "" : (SWkr>=0?"+":"−") + Math.round(Math.abs(SWkr)/1000) + "k";
 const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3ddc84");
-// Varsel ved hver ny tidel (2,4 / 2,5 / 2,6 ...)
-try {
-  const K = "tsla_spcx_bucket10";
-  const now = Math.floor(r * 10);
-  const prevB = Keychain.contains(K) ? parseInt(Keychain.get(K)) : null;
-  if (prevB === null) { Keychain.set(K, String(now)); }
-  else if (now !== prevB) {
-    const n = new Notification();
-    n.title = `Bytteforhold ${f(now/10,1)} ${now > prevB ? "↑" : "↓"}`;
-    n.body = `${f(t,2)} / ${f(s,2)}`;
-    n.openURL = APP;
-    await n.schedule();
-    Keychain.set(K, String(now));
-  }
-} catch (e) {}
+// Varsler slått av 27.10.2026
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
   const p = a.addText(`${f(t,2)} / ${f(s,2)}`);

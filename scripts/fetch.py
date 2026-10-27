@@ -31,7 +31,7 @@ try:
 except Exception: FX=None
 SW={"fx":FX}
 if FX:
-    _as=(5000*(ls-150.4408)+2000*(385.455-lt))*FX; _z=(3000*(ls-150.2098)+1250*(385.516-lt))*FX
+    _as=(5000*(ls-150.4408)+2000*(385.455-lt))*FX; _z=(6500*(ls-148.98)+2500*(389.80-lt))*FX
     SW.update({"as":round(_as),"zero":round(_z),"kr":round(_as+_z)})
 json.dump({"updated":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
  "live":LIVE,"swap":SW,

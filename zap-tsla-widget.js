@@ -6,21 +6,7 @@ const t = D.t, z = D.z, P = D.pnl.total;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 const k = x => (x>=0?"+":"−") + f(Math.abs(x)/1000,0) + "k";
 const col = P >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
-// Varsel ved hver ny hele 100k kr-terskel
-try {
-  const K = "zap_tsla_pnl100k";
-  const now = Math.floor(P / 100000);
-  const prevB = Keychain.contains(K) ? parseInt(Keychain.get(K)) : null;
-  if (prevB === null) { Keychain.set(K, String(now)); }
-  else if (now !== prevB) {
-    const n = new Notification();
-    n.title = `ZAP/TSLA ${k(now*100000)} ${now > prevB ? "↑" : "↓"}`;
-    n.body = `${f(t,2)} / ${f(z,2)} · ${k(P)} kr`;
-    n.openURL = APP;
-    await n.schedule();
-    Keychain.set(K, String(now));
-  }
-} catch (e) {}
+// Varsler slått av 27.10.2026
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
   const p = a.addText(`${f(t,2)} / ${f(z,2)}`);
