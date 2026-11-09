@@ -28,6 +28,8 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const b = row.addText(f(r,3));
   b.font = Font.boldSystemFont(28);
   b.minimumScaleFactor = 0.55;
+  a.addSpacer(1);
+  const rf = a.addText("9/11 " + f(BR,3)); rf.font = Font.systemFont(13); rf.minimumScaleFactor = 0.6;
   if (SWtxt) { row.addSpacer(8); const k = row.addText(SWtxt); k.font = Font.boldSystemFont(22); k.textColor = SWcol; k.minimumScaleFactor = 0.55; }
   a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
@@ -51,7 +53,7 @@ big.textColor = Color.white();
 big.minimumScaleFactor = 0.6;
 if (SWtxt) { brow.addSpacer(6); const k = brow.addText(SWtxt); k.font = Font.boldSystemFont(20); k.textColor = SWcol; k.minimumScaleFactor = 0.6; }
 const dB = r - BR;
-const ch = w.addText((dB>=0?"+":"") + f(dB,3) + " vs kjøp " + f(BR,3));
+const ch = w.addText("9/11 " + f(BR,3));
 ch.font = Font.systemFont(13);
 ch.minimumScaleFactor = 0.7;
 ch.textColor = dB >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
