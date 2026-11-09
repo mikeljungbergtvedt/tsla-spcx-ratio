@@ -15,7 +15,7 @@ const f = (x,n) => x.toFixed(n).replace(".", ",");
 const BR = 359/136;
 const SWfx = D.swap && D.swap.fx;
 const SWkr = SWfx ? ((2005*(t-358.97)+5000*(s-135.63)) + (1325*(t-359.00)+3500*(s-135.93)))*SWfx : null;
-const SWtxt = SWkr === null ? "" : (SWkr>=0?"+":"−") + Math.round(Math.abs(SWkr)/1000) + "k";
+const SWtxt = "";
 const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3ddc84");
 // Varsler slått av 27.10.2026
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
