@@ -11,9 +11,10 @@ if (D.live && D.live.t && D.live.s) {
 }
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
-// Byttet 22.10 – ren trade i kr: Mike AS 5000 SPCX@150,4408 / -2000 TSLA@385,455; Zero 6500@148,98 / -2500@389,80
+// Kjøpt 09.11: ratio 359/136. Kr = urealisert på dagens kjøp: Mike AS 2005 TSLA@358,97 + 5000 SPCX@135,63; Zero 1325 TSLA@359,00 + 3500 SPCX@135,93
+const BR = 359/136;
 const SWfx = D.swap && D.swap.fx;
-const SWkr = SWfx ? ((5000*(s-150.4408)+2000*(385.455-t)) + (6500*(s-148.98)+2500*(389.80-t)))*SWfx : null;
+const SWkr = SWfx ? ((2005*(t-358.97)+5000*(s-135.63)) + (1325*(t-359.00)+3500*(s-135.93)))*SWfx : null;
 const SWtxt = SWkr === null ? "" : (SWkr>=0?"+":"−") + Math.round(Math.abs(SWkr)/1000) + "k";
 const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3ddc84");
 // Varsler slått av 27.10.2026
@@ -49,9 +50,11 @@ big.font = Font.boldSystemFont(32);
 big.textColor = Color.white();
 big.minimumScaleFactor = 0.6;
 if (SWtxt) { brow.addSpacer(6); const k = brow.addText(SWtxt); k.font = Font.boldSystemFont(20); k.textColor = SWcol; k.minimumScaleFactor = 0.6; }
-const ch = w.addText((c>=0?"+":"") + f(c,3) + " i dag");
+const dB = r - BR;
+const ch = w.addText((dB>=0?"+":"") + f(dB,3) + " vs kjøp " + f(BR,3));
 ch.font = Font.systemFont(13);
-ch.textColor = c >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
+ch.minimumScaleFactor = 0.7;
+ch.textColor = dB >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();
