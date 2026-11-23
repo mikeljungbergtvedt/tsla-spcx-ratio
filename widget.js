@@ -20,8 +20,8 @@ const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3dd
 // Varsler slått av 27.10.2026
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
-  const p = a.addText(`${f(t,2)} / ${f(s,2)}`);
-  p.font = Font.boldSystemFont(28);
+  const p = a.addText(f(r,3));
+  p.font = Font.boldSystemFont(34);
   p.minimumScaleFactor = 0.5;
   a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
@@ -33,8 +33,8 @@ const h = w.addText("Tesla / SpaceX" + (tag ? " · " + tag : ""));
 h.font = Font.mediumSystemFont(11);
 h.textColor = new Color("#8a96a3");
 w.addSpacer(6);
-const px = w.addText(`${f(t,2)} / ${f(s,2)}`);
-px.font = Font.boldSystemFont(30);
+const px = w.addText(f(r,3));
+px.font = Font.boldSystemFont(40);
 px.textColor = Color.white();
 px.minimumScaleFactor = 0.7;
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
