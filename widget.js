@@ -12,7 +12,7 @@ if (D.live && D.live.t && D.live.s) {
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 // Kjøpt 09.11: ratio 359/136. Kr = urealisert på dagens kjøp: Mike AS 2005 TSLA@358,97 + 5000 SPCX@135,63; Zero 1325 TSLA@359,00 + 3500 SPCX@135,93
-const BR = 2.80;
+const BR = 2.782;
 const SWfx = D.swap && D.swap.fx;
 const SWkr = SWfx ? ((2005*(t-358.97)+5000*(s-135.63)) + (1325*(t-359.00)+3500*(s-135.93)))*SWfx : null;
 const SWtxt = "";
