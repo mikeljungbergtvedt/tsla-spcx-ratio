@@ -23,7 +23,7 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const p = a.addText(f(r,3));
   p.font = Font.boldSystemFont(34);
   p.minimumScaleFactor = 0.5;
-  const rf = a.addText("Ref " + f(BR,2)); rf.font = Font.systemFont(13); rf.minimumScaleFactor = 0.6;
+  const rf = a.addText("Ref " + f(BR,2) + "  " + (r>=BR?"+":"−") + f(Math.abs(r/BR-1)*100,1) + " %"); rf.font = Font.systemFont(13); rf.minimumScaleFactor = 0.6;
   a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
@@ -38,7 +38,7 @@ const px = w.addText(f(r,3));
 px.font = Font.boldSystemFont(40);
 px.textColor = Color.white();
 px.minimumScaleFactor = 0.7;
-const ch = w.addText("Ref " + f(BR,2));
+const ch = w.addText("Ref " + f(BR,2) + "  " + (r>=BR?"+":"−") + f(Math.abs(r/BR-1)*100,1) + " %");
 ch.font = Font.systemFont(13);
 ch.textColor = r >= BR ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
