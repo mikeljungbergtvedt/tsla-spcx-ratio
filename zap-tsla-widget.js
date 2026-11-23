@@ -2,7 +2,9 @@
 const URL_DATA = "https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/zap-tsla.json?" + Date.now();
 const APP = "https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/zap-tsla.html";
 const D = await new Request(URL_DATA).loadJSON();
-const t = D.t, z = D.z, P = D.pnl.total;
+const DS = await new Request("https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/data.json?" + Date.now()).loadJSON();
+const SL = DS.live && DS.live.s ? DS.live.s : DS.rows[DS.rows.length-1].s;
+const t = D.t, z = SL, P = D.pnl.total;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 const k = x => (x>=0?"+":"−") + f(Math.abs(x)/1000,0) + "k";
 const col = P >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
@@ -22,7 +24,7 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
 const w = new ListWidget();
 w.backgroundColor = new Color("#0b0f14");
 w.url = APP;
-const h = w.addText("TSLA / ZAP");
+const h = w.addText("TSLA / SPCX");
 h.font = Font.mediumSystemFont(11);
 h.textColor = new Color("#8a96a3");
 w.addSpacer(6);
