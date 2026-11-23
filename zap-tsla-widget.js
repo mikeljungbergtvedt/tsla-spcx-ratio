@@ -1,44 +1,15 @@
-// TSLA/ZAP trade-resultat i kr – Scriptable-widget
-const URL_DATA = "https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/zap-tsla.json?" + Date.now();
-const APP = "https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/zap-tsla.html";
-const D = await new Request(URL_DATA).loadJSON();
 const DS = await new Request("https://mikeljungbergtvedt.github.io/tsla-spcx-ratio/data.json?" + Date.now()).loadJSON();
-const SL = DS.live && DS.live.s ? DS.live.s : DS.rows[DS.rows.length-1].s;
-const t = D.t, z = SL, P = D.pnl.total;
-const f = (x,n) => x.toFixed(n).replace(".", ",");
-const k = x => (x>=0?"+":"−") + f(Math.abs(x)/1000,0) + "k";
-const col = P >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
-// Varsler slått av 27.10.2026
-if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
-  const a = new ListWidget(); a.url = APP;
-  const p = a.addText(`${f(t,2)} / ${f(z,2)}`);
-  p.font = Font.boldSystemFont(22);
-  p.minimumScaleFactor = 0.55;
-  a.addSpacer(2);
-  const b = a.addText(k(P));
-  b.font = Font.boldSystemFont(28);
-  b.minimumScaleFactor = 0.55;
-  a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
-  Script.setWidget(a); Script.complete(); return;
-}
+const L = DS.live && DS.live.s ? DS.live : DS.rows[DS.rows.length-1];
+const r = L.t / L.s;
+const f = (x,d) => x.toFixed(d).replace(".", ",");
 const w = new ListWidget();
-w.backgroundColor = new Color("#0b0f14");
-w.url = APP;
-const h = w.addText("TSLA / SPCX");
-h.font = Font.mediumSystemFont(11);
-h.textColor = new Color("#8a96a3");
-w.addSpacer(6);
-const px = w.addText(`${f(t,2)} / ${f(z,2)}`);
-px.font = Font.boldSystemFont(22);
-px.textColor = Color.white();
-px.minimumScaleFactor = 0.7;
-w.addSpacer(4);
-const big = w.addText(k(P));
-big.font = Font.boldSystemFont(36);
-big.textColor = col;
-const ch = w.addText(`ZAP ${k(D.pnl.zap)} · TSLA ${k(D.pnl.tsla)}`);
-ch.font = Font.systemFont(13);
-ch.textColor = new Color("#8a96a3");
+if (config.runsInAccessoryWidget) {
+  const a = w.addText(f(r,3)); a.font = Font.boldSystemFont(34);
+} else {
+  w.backgroundColor = new Color("#0b0f17");
+  const h = w.addText("TSLA / SPCX"); h.font = Font.semiboldSystemFont(12); h.textColor = Color.gray();
+  w.addSpacer(6);
+  const b = w.addText(f(r,3)); b.font = Font.boldSystemFont(40); b.textColor = Color.white();
+}
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
-if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
-Script.complete();
+Script.setWidget(w); Script.complete();
