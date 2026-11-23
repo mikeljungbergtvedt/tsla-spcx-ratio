@@ -12,7 +12,7 @@ if (D.live && D.live.t && D.live.s) {
 const r = t/s, c = r - pr.r;
 const f = (x,n) => x.toFixed(n).replace(".", ",");
 // Kjøpt 09.11: ratio 359/136. Kr = urealisert på dagens kjøp: Mike AS 2005 TSLA@358,97 + 5000 SPCX@135,63; Zero 1325 TSLA@359,00 + 3500 SPCX@135,93
-const BR = 359/136;
+const BR = 2.80;
 const SWfx = D.swap && D.swap.fx;
 const SWkr = SWfx ? ((2005*(t-358.97)+5000*(s-135.63)) + (1325*(t-359.00)+3500*(s-135.93)))*SWfx : null;
 const SWtxt = "";
@@ -23,6 +23,7 @@ if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const p = a.addText(f(r,3));
   p.font = Font.boldSystemFont(34);
   p.minimumScaleFactor = 0.5;
+  const rf = a.addText("Ref " + f(BR,2)); rf.font = Font.systemFont(13); rf.minimumScaleFactor = 0.6;
   a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
@@ -37,6 +38,9 @@ const px = w.addText(f(r,3));
 px.font = Font.boldSystemFont(40);
 px.textColor = Color.white();
 px.minimumScaleFactor = 0.7;
+const ch = w.addText("Ref " + f(BR,2));
+ch.font = Font.systemFont(13);
+ch.textColor = r >= BR ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();
