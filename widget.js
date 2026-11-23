@@ -21,42 +21,22 @@ const SWcol = SWkr !== null && SWkr < 0 ? new Color("#ff5c5c") : new Color("#3dd
 if (config.widgetFamily && config.widgetFamily.startsWith("accessory")) {
   const a = new ListWidget(); a.url = APP;
   const p = a.addText(`${f(t,2)} / ${f(s,2)}`);
-  p.font = Font.boldSystemFont(22);
-  p.minimumScaleFactor = 0.55;
-  a.addSpacer(2);
-  const row = a.addStack(); row.centerAlignContent();
-  const b = row.addText(f(r,3));
-  b.font = Font.boldSystemFont(28);
-  b.minimumScaleFactor = 0.55;
-  a.addSpacer(1);
-  const rf = a.addText("9/11 " + f(BR,3)); rf.font = Font.systemFont(13); rf.minimumScaleFactor = 0.6;
-  if (SWtxt) { row.addSpacer(8); const k = row.addText(SWtxt); k.font = Font.boldSystemFont(22); k.textColor = SWcol; k.minimumScaleFactor = 0.55; }
+  p.font = Font.boldSystemFont(28);
+  p.minimumScaleFactor = 0.5;
   a.refreshAfterDate = new Date(Date.now() + 5*60*1000);
   Script.setWidget(a); Script.complete(); return;
 }
 const w = new ListWidget();
 w.backgroundColor = new Color("#0b0f14");
 w.url = APP;
-const h = w.addText("TSLA / SPCX" + (tag ? " · " + tag : ""));
+const h = w.addText("Tesla / SpaceX" + (tag ? " · " + tag : ""));
 h.font = Font.mediumSystemFont(11);
 h.textColor = new Color("#8a96a3");
 w.addSpacer(6);
 const px = w.addText(`${f(t,2)} / ${f(s,2)}`);
-px.font = Font.boldSystemFont(22);
+px.font = Font.boldSystemFont(30);
 px.textColor = Color.white();
 px.minimumScaleFactor = 0.7;
-w.addSpacer(4);
-const brow = w.addStack(); brow.centerAlignContent();
-const big = brow.addText(f(r,3));
-big.font = Font.boldSystemFont(32);
-big.textColor = Color.white();
-big.minimumScaleFactor = 0.6;
-if (SWtxt) { brow.addSpacer(6); const k = brow.addText(SWtxt); k.font = Font.boldSystemFont(20); k.textColor = SWcol; k.minimumScaleFactor = 0.6; }
-const dB = r - BR;
-const ch = w.addText("9/11 " + f(BR,3));
-ch.font = Font.systemFont(13);
-ch.minimumScaleFactor = 0.7;
-ch.textColor = dB >= 0 ? new Color("#3ddc84") : new Color("#ff5c5c");
 w.refreshAfterDate = new Date(Date.now() + 5*60*1000);
 if (config.runsInWidget) Script.setWidget(w); else w.presentSmall();
 Script.complete();
